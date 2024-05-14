@@ -6,6 +6,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import io.ssttkkl.mahjongutils.app.components.appscaffold.AppState
 import org.jetbrains.compose.resources.StringResource
 
+//抽象屏幕类
 abstract class NavigationScreen : Screen {
     abstract val title: StringResource?
 

@@ -43,7 +43,7 @@ import io.ssttkkl.mahjongutils.app.utils.Spacing
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 
-
+//显示导航栏
 @Composable
 fun ColumnScope.NavigationItems(
     navigator: Navigator,
@@ -54,10 +54,16 @@ fun ColumnScope.NavigationItems(
 
     navigatableScreens.forEach { screen ->
         NavigationDrawerItem(
+
             label = { screen.title?.let { Text(stringResource(it)) } },
+
+            //高亮当前选中的导航项
             selected = navigator.lastItem == screen,
+
             onClick = {
+                //将导航历史设为当前页面
                 navigator.replaceAll(screen)
+                //启动新协程关闭导航栏
                 coroutineScope.launch {
                     drawerState?.close()
                 }
@@ -66,6 +72,7 @@ fun ColumnScope.NavigationItems(
     }
 }
 
+//显示对话框
 @Composable
 private fun AppDialog(
     state: AppDialogState,
@@ -79,6 +86,7 @@ private fun AppDialog(
     }
 }
 
+//显示底部表单
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AppBottomSheet(
@@ -119,6 +127,7 @@ private fun AppBottomSheet(
     }
 }
 
+//显示顶部应用栏
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AppBar(
@@ -126,6 +135,7 @@ private fun AppBar(
     navigationIcon: @Composable (canGoBack: Boolean) -> Unit
 ) {
     TopAppBar(
+        //从导航项获取顶部标题
         title = {
             Text(
                 (appState.navigator.lastItem as? NavigationScreen)
@@ -133,6 +143,7 @@ private fun AppBar(
                     ?.let { stringResource(it) } ?: ""
             )
         },
+        //从导航项获取顶部ui图标
         navigationIcon = {
             navigationIcon(appState.navigator.canPop)
         },
@@ -156,6 +167,7 @@ fun AppScaffold(
 ) {
     @Composable
     fun InnerScaffold() {
+        //具体布局结构
         Scaffold(
             modifier = Modifier.safeDrawingPadding(),
             topBar = {
@@ -183,32 +195,40 @@ fun AppScaffold(
         LocalAppState provides appState
     ) {
         TileImeHost {
+            //不使用导航抽屉
             if (!useNavigationDrawer) {
                 with(Spacing.current) {
                     Row {
                         val menuScrollState = rememberScrollState()
+                        //创建一个滚动框(导航项)
                         ScrollBox(menuScrollState) {
                             Column(Modifier.width(200.dp).verticalScroll(menuScrollState)) {
                                 NavigationItems(appState.navigator, navigatableScreens)
                             }
                         }
-
+                        //分隔滚动框和列布局
                         Spacer(Modifier.width(panesHorizontalSpacing))
-
+                        //页面主要结构
                         Column(Modifier.weight(1f)) {
                             InnerScaffold()
                         }
                     }
                 }
-            } else {
+            }
+            //使用导航抽屉 
+            else {
                 ModalNavigationDrawer(
+                    //是否启用手势
                     gesturesEnabled = !appState.navigator.canPop,
+
                     drawerState = appState.drawerState,
                     drawerContent = {
                         ModalDrawerSheet {
                             val menuScrollState = rememberScrollState()
                             ScrollBox(menuScrollState) {
+                                //导航抽屉
                                 Column(Modifier.verticalScroll(menuScrollState)) {
+                                    //关闭按钮
                                     IconButton(onClick = {
                                         appState.coroutineScope.launch {
                                             appState.drawerState.close()
@@ -216,6 +236,7 @@ fun AppScaffold(
                                     }) {
                                         Icon(Icons.Default.Close, "")
                                     }
+                                    //各导航项
                                     NavigationItems(
                                         appState.navigator,
                                         navigatableScreens,
@@ -225,7 +246,9 @@ fun AppScaffold(
                             }
                         }
                     }
-                ) {
+                )
+                //主要布局
+                {
                     InnerScaffold()
                 }
             }

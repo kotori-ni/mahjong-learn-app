@@ -70,6 +70,7 @@ abstract class FormAndResultScreen<M : FormAndResultScreenModel<ARG, RES>, ARG, 
     override fun RowScope.TopBarActions(appState: AppState) {
         val model = getScreenModel()
         with(Spacing.current) {
+            //显示底部弹出窗口
             IconButton(onClick = {
                 appState.appBottomSheetState = AppBottomSheetState {
                     HistoryContent(
@@ -88,6 +89,7 @@ abstract class FormAndResultScreen<M : FormAndResultScreenModel<ARG, RES>, ARG, 
                 )
             }
 
+            //重置表单的状态
             IconButton(onClick = {
                 model.resetForm()
             }) {
@@ -116,6 +118,7 @@ abstract class FormAndResultScreen<M : FormAndResultScreenModel<ARG, RES>, ARG, 
 
         @Composable
         fun PanelHeader() {
+            //垂直方向上居中对齐
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(stringResource(Res.string.label_history))
                 TextButton(

@@ -22,6 +22,7 @@ class HistoryDataStore<T>(
     @OptIn(ExperimentalSerializationApi::class)
     @Suppress("UNCHECKED_CAST")
     private val dataStore: DataStore<List<History<T>>> = run {
+        //TODO 看不懂这三个序列化
         val tSerializer = serializer(type)
         val historySerializer = serializer(History::class, listOf(tSerializer), false)
         val listSerializer = serializer(List::class, listOf(historySerializer), false)

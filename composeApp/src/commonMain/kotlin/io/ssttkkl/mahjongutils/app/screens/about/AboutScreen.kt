@@ -34,10 +34,12 @@ object AboutScreen : NavigationScreen() {
 
         ScrollBox(verticalScrollState) {
             Column(Modifier.verticalScroll(verticalScrollState)) {
+                //应用版本号
                 ListItem(
                     headlineContent = { Text(stringResource(Res.string.title_about_appversion)) },
                     supportingContent = { Text(BuildKonfig.VERSION_NAME) }
                 )
+                //开源仓库的地址
                 ListItem(
                     headlineContent = { Text(stringResource(Res.string.title_about_opensource_repo)) },
                     supportingContent = { Text(BuildKonfig.OPENSOURCE_REPO) },
@@ -45,6 +47,7 @@ object AboutScreen : NavigationScreen() {
                         uriHandler.openUri(BuildKonfig.OPENSOURCE_REPO)
                     }
                 )
+                //开源许可证信息
                 ListItem(
                     headlineContent = { Text(stringResource(Res.string.title_about_opensource_licenses)) },
                     supportingContent = { Text(BuildKonfig.OPENSOURCE_LICENSE) },

@@ -32,7 +32,9 @@ object OpenSourceLicensesScreen : NavigationScreen() {
 
         val lazyListState = rememberLazyListState()
 
+        //垂直滚动
         VerticalScrollBox(lazyListState) {
+            //LibrariesContainer UI固定
             LibrariesContainer(
                 aboutlibraries,
                 Modifier.fillMaxSize(),

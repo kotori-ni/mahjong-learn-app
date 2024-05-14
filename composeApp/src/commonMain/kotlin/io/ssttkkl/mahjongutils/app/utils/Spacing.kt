@@ -19,8 +19,10 @@ data class Spacing(
     val panelsVerticalSpacing: Dp,
     val cardInnerPadding: PaddingValues,
 ) {
+    //添加水平方向的外边距
     fun Modifier.windowHorizontalMargin() = padding(horizontal = windowHorizontalMargin)
 
+    //创建具有指定高度的间距组件
     @Composable
     fun VerticalSpacerBetweenPanels() {
         Spacer(Modifier.height(panelsVerticalSpacing))
@@ -28,6 +30,7 @@ data class Spacing(
 
     companion object {
         @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+        //获取当前窗口大小类对应的间距
         val current: Spacing
             @Composable
             get() {
